@@ -45,24 +45,32 @@ public class TransitService
 
         var builder = new StringBuilder();
 
+        var endOfFile = false;
         while (fileStream.CanRead)
         {
             builder.Clear();
 
-            while (streamReader.Peek() >= 0)
+            while (endOfFile == false)
             {
-                var readChar = (char)streamReader.Read();
+                var readByte = streamReader.Read();
+                var readChar = (char)readByte;
 
+                if (readByte == -1)
+                {
+                    endOfFile = true;
+                    fileStream.Close();
+                    break;
+                }
                 if (readChar == '\r') continue;
                 if (readChar == '\n') break;
 
                 builder.Append(readChar);
             }
 
-            var charBuffer = ArrayPool<char>.Shared.Rent(builder.Length);
             var bufferPool = ArrayPool<char>.Shared;
             var charBuffer = bufferPool.Rent(builder.Length);
 
+            
             for (int i = 0; i < builder.Length; i++)
             {
                 charBuffer[i] = builder[i];
@@ -77,12 +85,8 @@ public class TransitService
             {
                 BuildStopTimeContext(charBuffer);
             }
+            
             bufferPool.Return(charBuffer);
-
-            if (streamReader.Peek() == -1)
-            {
-                fileStream.Close();
-            }
         }
     }
 
