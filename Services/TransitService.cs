@@ -60,6 +60,8 @@ public class TransitService
             }
 
             var charBuffer = ArrayPool<char>.Shared.Rent(builder.Length);
+            var bufferPool = ArrayPool<char>.Shared;
+            var charBuffer = bufferPool.Rent(builder.Length);
 
             for (int i = 0; i < builder.Length; i++)
             {
@@ -75,6 +77,7 @@ public class TransitService
             {
                 BuildStopTimeContext(charBuffer);
             }
+            bufferPool.Return(charBuffer);
 
             if (streamReader.Peek() == -1)
             {
