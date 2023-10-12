@@ -25,12 +25,13 @@ public class TransitService
         var routeInformation = _tripContext[route]
             .Select(t => new
             {
-                Route = t,
-                StopInfo = _stopTimesContext[t.TripId]
+                Route = t.RouteId.AsString(),
+                StopInfo = _stopTimesContext[t.TripId.AsString()]
                     .Select(s => new
                     {
-                        s.ArrivalTime,
-                        s.DepartureTime
+                        StopId = s.StopId.AsString(),
+                        ArrivalTime = s.ArrivalTime.AsString(),
+                        DepartureTime = s.DepartureTime.AsString()
                     })
             }).ToJson();
 
@@ -70,7 +71,7 @@ public class TransitService
             var bufferPool = ArrayPool<char>.Shared;
             var charBuffer = bufferPool.Rent(builder.Length);
 
-            
+
             for (int i = 0; i < builder.Length; i++)
             {
                 charBuffer[i] = builder[i];
@@ -85,7 +86,7 @@ public class TransitService
             {
                 BuildStopTimeContext(charBuffer);
             }
-            
+
             bufferPool.Return(charBuffer);
         }
     }
@@ -93,28 +94,30 @@ public class TransitService
     private void BuildTripContext(char[] bufferLine)
     {
         var model = new TripRecord(bufferLine);
+        var key = model.RouteId.AsString();
 
-        if (!_tripContext.ContainsKey(model.RouteId))
+        if (!_tripContext.ContainsKey(key))
         {
-            _tripContext.Add(model.RouteId, new List<TripRecord> { model });
+            _tripContext.Add(key, new List<TripRecord> { model });
         }
         else
         {
-            _tripContext[model.RouteId].Add(model);
+            _tripContext[key].Add(model);
         }
     }
 
     private void BuildStopTimeContext(char[] bufferLine)
     {
         var model = new StopTimeRecord(bufferLine);
+        var key = model.TripId.AsString();
 
-        if (!_stopTimesContext.ContainsKey(model.TripId))
+        if (!_stopTimesContext.ContainsKey(key))
         {
-            _stopTimesContext.Add(model.TripId, new List<StopTimeRecord> { model });
+            _stopTimesContext.Add(key, new List<StopTimeRecord> { model });
         }
         else
         {
-            _stopTimesContext[model.TripId].Add(model);
+            _stopTimesContext[key].Add(model);
         }
     }
 }

@@ -12,10 +12,10 @@ public struct StopTimeRecord
         StopId = bufferLine.ParseSection(4);
     }
 
-    public string TripId { get; private set; }
-    public string ArrivalTime { get; private set; }
-    public string DepartureTime { get; private set; }
-    public string StopId { get; private set; }
+    public char[] TripId { get; private set; }
+    public char[] ArrivalTime { get; private set; }
+    public char[] DepartureTime { get; private set; }
+    public char[] StopId { get; private set; }
 
     // public string stop_sequence { get; set; }
     // public string stop_headsign { get; set; }
