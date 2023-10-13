@@ -2,7 +2,7 @@ using transit_parser.ExtensionMethods;
 
 namespace transit_parser.Records;
 
-public struct TripRecord
+public record TripRecord
 {
     public TripRecord(char[] bufferLine)
     {

@@ -2,7 +2,7 @@ using transit_parser.ExtensionMethods;
 
 namespace transit_parser.Records;
 
-public struct StopTimeRecord
+public record StopTimeRecord
 {
     public StopTimeRecord(char[] bufferLine)
     {
