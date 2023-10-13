@@ -63,6 +63,7 @@ public class TransitService
                 if (readByte == -1)
                 {
                     endOfFile = true;
+                    streamReader.Close();
                     fileStream.Close();
                     break;
                 }
