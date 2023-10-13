@@ -22,6 +22,7 @@ public class TransitService
     }
 
     public IEnumerable<ScheduleRouteDTO> AcquireRoute(string route)
+    public ScheduleRouteDTO[] AcquireRoute(string route)
     {
         var routeInformation = _tripContext[route]
             .Select(t => new ScheduleRouteDTO
@@ -36,6 +37,7 @@ public class TransitService
                         DepartureTime = s.DepartureTime,
                     })
             });
+            }).ToArray();
 
         return routeInformation;
     }
