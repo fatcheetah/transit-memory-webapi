@@ -29,12 +29,12 @@ public class TransitService
                 Route = t.RouteId,
                 Service = t.Service,
                 StopInfo = _stopTimesContext[t.TripId]
-                    .Select(s => new ScheduleRootStopTime
+                    .Select(s => new ScheduleRouteStopTime
                     {
                         StopId = s.StopId,
                         ArrivalTime = s.ArrivalTime,
                         DepartureTime = s.DepartureTime,
-                    })
+                    }).ToArray()
             }).ToArray();
 
         return routeInformation;
