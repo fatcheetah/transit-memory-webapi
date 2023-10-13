@@ -21,7 +21,6 @@ public class TransitService
         ParseFile<StopTimeRecord>(stopTimesFilePath);
     }
 
-    public IEnumerable<ScheduleRouteDTO> AcquireRoute(string route)
     public ScheduleRouteDTO[] AcquireRoute(string route)
     {
         var routeInformation = _tripContext[route]
@@ -36,7 +35,6 @@ public class TransitService
                         ArrivalTime = s.ArrivalTime,
                         DepartureTime = s.DepartureTime,
                     })
-            });
             }).ToArray();
 
         return routeInformation;
