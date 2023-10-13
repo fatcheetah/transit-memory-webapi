@@ -11,9 +11,9 @@ public record TripRecord
         TripId = bufferLine.ParseSection(3);
     }
     
-    public char[] RouteId { get; private set; }
-    public char[] Service { get; private set; }
-    public char[] TripId { get; private set; }
+    public string RouteId { get; private set; }
+    public string Service { get; private set; }
+    public string TripId { get; private set; }
     
     // public string trip_headsign { get; set; }
     // public string trip_shortname { get; set; }

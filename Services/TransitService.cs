@@ -26,14 +26,14 @@ public class TransitService
         var routeInformation = _tripContext[route]
             .Select(t => new ScheduleRouteDTO
             {
-                Route = t.RouteId.AsString(),
-                Service = t.Service.AsString(),
-                StopInfo = _stopTimesContext[t.TripId.AsString()]
+                Route = t.RouteId,
+                Service = t.Service,
+                StopInfo = _stopTimesContext[t.TripId]
                     .Select(s => new ScheduleRootStopTime
                     {
-                        StopId = s.StopId.AsString(),
-                        ArrivalTime = s.ArrivalTime.AsString(),
-                        DepartureTime = s.DepartureTime.AsString()
+                        StopId = s.StopId,
+                        ArrivalTime = s.ArrivalTime,
+                        DepartureTime = s.DepartureTime,
                     })
             });
 
@@ -97,7 +97,7 @@ public class TransitService
     private void BuildTripContext(char[] bufferLine)
     {
         var model = new TripRecord(bufferLine);
-        var key = model.RouteId.AsString();
+        var key = model.RouteId;
 
         if (!_tripContext.ContainsKey(key))
         {
@@ -112,7 +112,7 @@ public class TransitService
     private void BuildStopTimeContext(char[] bufferLine)
     {
         var model = new StopTimeRecord(bufferLine);
-        var key = model.TripId.AsString();
+        var key = model.TripId;
 
         if (!_stopTimesContext.ContainsKey(key))
         {

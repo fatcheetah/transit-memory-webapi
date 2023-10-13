@@ -4,7 +4,7 @@ namespace transit_parser.ExtensionMethods;
 
 public static class BufferCSVExtension
 {
-    public static char[] ParseSection(this char[] lineBuffer, int position = 1)
+    public static string ParseSection(this char[] lineBuffer, int position = 1)
     {
         var lastCommaPosition = 0;
         var count = 0;
@@ -17,16 +17,16 @@ public static class BufferCSVExtension
 
             if (count == position)
             {
-                return lineBuffer[lastCommaPosition..i];
+                return lineBuffer[lastCommaPosition..i].AsString();
             }
 
             lastCommaPosition = i + 1;
         }
 
-        return Array.Empty<char>();
+        return string.Empty;
     }
 
-    public static string AsString(this char[] characters)
+    private static string AsString(this char[] characters)
     {
         return new string(characters);
     }
