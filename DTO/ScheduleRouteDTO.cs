@@ -1,6 +1,6 @@
 namespace transit_parser.DTO;
 
-public struct ScheduleRootDTO
+public struct ScheduleRouteDTO
 {
     public string Route { get; set; }
     public string Service { get; set; }

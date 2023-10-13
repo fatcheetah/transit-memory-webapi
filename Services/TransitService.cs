@@ -20,10 +20,10 @@ public class TransitService
         ParseFile<StopTimeRecord>(stopTimesFilePath);
     }
 
-    public IEnumerable<ScheduleRootDTO> AcquireRoute(string route)
+    public IEnumerable<ScheduleRouteDTO> AcquireRoute(string route)
     {
         var routeInformation = _tripContext[route]
-            .Select(t => new ScheduleRootDTO
+            .Select(t => new ScheduleRouteDTO
             {
                 Route = t.RouteId.AsString(),
                 Service = t.Service.AsString(),
