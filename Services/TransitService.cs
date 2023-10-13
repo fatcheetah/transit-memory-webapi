@@ -20,20 +20,21 @@ public class TransitService
         ParseFile<StopTimeRecord>(stopTimesFilePath);
     }
 
-    public string AcquireRoute(string route)
+    public IEnumerable<ScheduleRootDTO> AcquireRoute(string route)
     {
         var routeInformation = _tripContext[route]
-            .Select(t => new
+            .Select(t => new ScheduleRootDTO
             {
                 Route = t.RouteId.AsString(),
+                Service = t.Service.AsString(),
                 StopInfo = _stopTimesContext[t.TripId.AsString()]
-                    .Select(s => new
+                    .Select(s => new ScheduleRootStopTime
                     {
                         StopId = s.StopId.AsString(),
                         ArrivalTime = s.ArrivalTime.AsString(),
                         DepartureTime = s.DepartureTime.AsString()
                     })
-            }).ToJson();
+            });
 
         return routeInformation;
     }
@@ -62,6 +63,7 @@ public class TransitService
                     fileStream.Close();
                     break;
                 }
+
                 if (readChar == '\r') continue;
                 if (readChar == '\n') break;
 
