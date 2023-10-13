@@ -1,5 +1,6 @@
 using System.Buffers;
 using System.Text;
+using transit_parser.DTO;
 using transit_parser.ExtensionMethods;
 using transit_parser.Records;
 
