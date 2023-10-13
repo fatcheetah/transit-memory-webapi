@@ -47,6 +47,7 @@ public class TransitService
         streamReader.ReadLine(); // skip headers
 
         var builder = new StringBuilder();
+        var bufferPool = ArrayPool<char>.Shared;
 
         var endOfFile = false;
         while (fileStream.CanRead)
@@ -72,7 +73,6 @@ public class TransitService
                 builder.Append(readChar);
             }
 
-            var bufferPool = ArrayPool<char>.Shared;
             var charBuffer = bufferPool.Rent(builder.Length);
 
 
