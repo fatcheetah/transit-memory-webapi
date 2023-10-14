@@ -1,7 +1,6 @@
 using System.Buffers;
 using System.Text;
 using transit_parser.DTO;
-using transit_parser.ExtensionMethods;
 using transit_parser.Records;
 
 namespace transit_parser.Services;
@@ -21,7 +20,7 @@ public class TransitService
         ParseFile<StopTimeRecord>(stopTimesFilePath);
     }
 
-    public ScheduleRouteDTO[] AcquireRoute(string route)
+    public IEnumerable<ScheduleRouteDTO> AcquireRoute(string route)
     {
         var routeInformation = _tripContext[route]
             .Select(t => new ScheduleRouteDTO
@@ -34,8 +33,8 @@ public class TransitService
                         StopId = s.StopId,
                         ArrivalTime = s.ArrivalTime,
                         DepartureTime = s.DepartureTime,
-                    }).ToArray()
-            }).ToArray();
+                    })
+            });
 
         return routeInformation;
     }

@@ -4,7 +4,7 @@ public struct ScheduleRouteDTO
 {
     public string Route { get; set; }
     public string Service { get; set; }
-    public ScheduleRouteStopTime[] StopInfo { get; set; }
+    public IEnumerable<ScheduleRouteStopTime> StopInfo { get; set; }
 }
 
 public struct ScheduleRouteStopTime
