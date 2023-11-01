@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using transit_parser.Services;
 
 namespace transit_parser.Controllers;
@@ -18,23 +19,41 @@ public class TransitController : ControllerBase
     }
 
     [HttpGet]
+    // [PerformanceTestFilter]
     [Route("Schedule")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public IActionResult Schedule(string route)
     {
-        // AppDomain.MonitoringIsEnabled = true;
         try
         {
             var routeInformation = _transitService.AcquireRoute(route);
-            // Console.WriteLine($"Took: {AppDomain.CurrentDomain.MonitoringTotalProcessorTime.TotalMilliseconds:#,###} ms");
-            // Console.WriteLine($"Allocated: {AppDomain.CurrentDomain.MonitoringTotalAllocatedMemorySize / 1024:#,#} kb");
-            // Console.WriteLine($"Peak Working Set: {Process.GetCurrentProcess().PeakWorkingSet64 / 1024:#,#} kb");
             return Ok(routeInformation);
         }
         catch (Exception)
         {
             return NoContent();
         }
+    }
+}
+
+public class PerformanceTestFilter : ActionFilterAttribute
+{
+    private Stopwatch _watch = new Stopwatch();
+    private int _requestsProcessed = 0;
+
+    public override void OnActionExecuting(ActionExecutingContext filterContext)
+    {
+        _watch.Reset();
+        _watch.Start();
+    }
+
+    public override void OnActionExecuted(ActionExecutedContext filterContext)
+    {
+        _requestsProcessed++;
+        _watch.Stop();
+        var executionTime = _watch.ElapsedTicks * 1000000000 / Stopwatch.Frequency;
+        Console.WriteLine($"response returned in: {executionTime:##.###} ns");
+        Console.WriteLine($"requests processed {_requestsProcessed} ");
     }
 }

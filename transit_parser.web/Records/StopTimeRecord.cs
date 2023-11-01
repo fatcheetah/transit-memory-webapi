@@ -7,9 +7,9 @@ public record StopTimeRecord
     public StopTimeRecord(char[] bufferLine)
     {
         TripId = bufferLine.ParseSection();
-        ArrivalTime = bufferLine.ParseSection(2);
-        DepartureTime = bufferLine.ParseSection(3);
-        StopId = bufferLine.ParseSection(4);
+        ArrivalTime = bufferLine.ParseSection(3);
+        DepartureTime = bufferLine.ParseSection(4);
+        StopId = bufferLine.ParseSection(5);
     }
 
     public string TripId { get; private set; }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Buffers;
 using System.Text;
 using transit_parser.DTO;
@@ -7,12 +8,12 @@ namespace transit_parser.Services;
 
 public class TransitService
 {
-    private Dictionary<string, List<TripRecord>> _tripContext = new();
-    private Dictionary<string, List<StopTimeRecord>> _stopTimesContext = new();
-
+    private SortedDictionary<string, List<TripRecord>> _tripContext = new();
+    private SortedDictionary<string, List<StopTimeRecord>> _stopTimesContext = new();
+    
     public TransitService()
     {
-        var baseDirectory = "/MBTA_GTFS/";
+        var baseDirectory = "/home/choc/funnn/transit_parser/MBTA_GTFS/";
         var tripsFilePath = $"{baseDirectory}trips.txt";
         var stopTimesFilePath = $"{baseDirectory}stop_times.txt";
 
@@ -41,6 +42,8 @@ public class TransitService
 
     private void ParseFile<T>(string filePath)
     {
+        var watch = new Stopwatch();
+        watch.Start();
         using var fileStream = new FileInfo(filePath).Open(FileMode.Open, FileAccess.Read);
         using var streamReader = new StreamReader(fileStream);
         streamReader.ReadLine(); // skip headers
@@ -63,6 +66,8 @@ public class TransitService
                     endOfFile = true;
                     streamReader.Close();
                     fileStream.Close();
+                    watch.Stop();
+                    Console.WriteLine($"streamed_file {typeof(T)} in: {watch.ElapsedMilliseconds} ms");
                     break;
                 }
 
@@ -73,7 +78,6 @@ public class TransitService
             }
 
             var charBuffer = bufferPool.Rent(builder.Length);
-
 
             for (int i = 0; i < builder.Length; i++)
             {

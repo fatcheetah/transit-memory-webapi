@@ -1,3 +1,4 @@
+using transit_parser.Controllers;
 using transit_parser.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,18 +13,7 @@ Scoped objects are the same within a request, but different across different req
 Singleton objects are the same for every object and every request.
 */
 
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 // Linux disable
 // app.UseHttpsRedirection();
