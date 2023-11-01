@@ -15,7 +15,8 @@ The tests use 'rl.csv' a collection of the routes found in the test data downloa
 
 The testing complete was run over a 7-minute period with the active users counts increasing to 1-25-50-100-250-500-1000.
 
-All testing was run locally with both the web-app and testing complete on the same machine so results maybe somewhat inaccurate due to heavy RAM usage of JMeter.
+These results have been produced on a single-machine with good hardware and may not be representive of low level hosting. Results maybe somewhat inaccurate due to heavy RAM usage of JMeter.
+> Hardware used [ 5800x3d, 16GB-DDR4, NVMe storage ]
 
 ## Running
 
